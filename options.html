@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlockMedia Settings</title>
+  <link rel="stylesheet" href="options.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1>BlockMedia Settings</h1>
+    <p class="subtitle">Customize your media blocking preferences.</p>
+
+    <div class="section">
+      <div class="section-title">Execution Mode</div>
+      <div class="mode-selector">
+        <div class="mode-card active" data-mode="whitelist">
+          <h3>Whitelist Mode</h3>
+          <p>Block everywhere except these sites.</p>
+        </div>
+        <div class="mode-card" data-mode="blacklist">
+          <h3>Blacklist Mode</h3>
+          <p>Only block on these sites.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Media Items Control</div>
+      <div class="types-grid" id="types-container">
+        <!-- Groups will be dynamically generated here -->
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Manage Domains</div>
+      <div class="input-box">
+        <input type="text" id="domain-input" placeholder="e.g. example.com">
+        <button id="add-btn">Add Domain</button>
+      </div>
+
+      <div class="domain-list" id="domain-list">
+        <!-- Domains will appear here -->
+      </div>
+    </div>
+
+    <div id="status" class="status-toast">Settings Saved!</div>
+  </div>
+  <script src="options.js"></script>
+</body>
+</html>

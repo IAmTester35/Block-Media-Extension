@@ -377,3 +377,37 @@ input:checked + .slider:before { transform: translateX(18px); }
 }
 
 .status-toast.visible { opacity: 1; }
+
+/* Aggressive Options Styles */
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.option-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: var(--inner-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  transition: var(--transition);
+}
+
+.option-item:hover {
+  border-color: var(--text-muted);
+}
+
+.option-info h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.option-info p {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+

@@ -20,7 +20,9 @@ const MEDIA_GROUPS = {
 let config = {
   mode: 'whitelist',
   domains: [],
-  enabledFormats: {} // Will store { "png": true, "jpg": false, ... }
+  enabledFormats: {}, // Will store { "png": true, "jpg": false, ... }
+  aggressiveBlocking: false,
+  domPurge: false
 };
 
 // Initialize enabledFormats with all true if not present
@@ -33,6 +35,8 @@ const domainInput = document.getElementById('domain-input');
 const addBtn = document.getElementById('add-btn');
 const domainList = document.getElementById('domain-list');
 const typesContainer = document.getElementById('types-container');
+const aggressiveBlockingToggle = document.getElementById('aggressive-blocking');
+const domPurgeToggle = document.getElementById('dom-purge');
 const statusToast = document.getElementById('status');
 
 // Load stored settings
@@ -154,6 +158,17 @@ function normalizeDomain(url) {
   }
 }
 
+// Aggressive Toggles
+aggressiveBlockingToggle.addEventListener('change', (e) => {
+  config.aggressiveBlocking = e.target.checked;
+  saveConfig();
+});
+
+domPurgeToggle.addEventListener('change', (e) => {
+  config.domPurge = e.target.checked;
+  saveConfig();
+});
+
 function saveConfig() {
   chrome.storage.local.set({ blockConfig: config }, () => {
     showStatus();
@@ -178,4 +193,7 @@ function updateUI() {
     item.querySelector('.remove-btn').addEventListener('click', () => removeDomain(domain));
     domainList.appendChild(item);
   });
+
+  aggressiveBlockingToggle.checked = !!config.aggressiveBlocking;
+  domPurgeToggle.checked = !!config.domPurge;
 }

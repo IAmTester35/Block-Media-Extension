@@ -93,6 +93,41 @@ async function applyRules(config) {
 
     newRules.push(rule);
   });
+  
+  // Issue 1: Aggressive blocking by Resource Type
+  if (config.aggressiveBlocking) {
+    const resourceTypesToBlock = [];
+    const hasImageEnabled = Object.keys(enabledFormats).some(fmt => 
+      enabledFormats[fmt] && (EXTENSION_TO_RESOURCE_TYPE[fmt] === 'image')
+    );
+    const hasMediaEnabled = Object.keys(enabledFormats).some(fmt => 
+      enabledFormats[fmt] && (EXTENSION_TO_RESOURCE_TYPE[fmt] === 'media')
+    );
+
+    if (hasImageEnabled) resourceTypesToBlock.push("image");
+    if (hasMediaEnabled) resourceTypesToBlock.push("media");
+
+    if (resourceTypesToBlock.length > 0) {
+      const aggRule = {
+        id: ruleIdCounter++,
+        priority: 2, // Higher priority than extension-based rules
+        action: { type: "block" },
+        condition: {
+          resourceTypes: resourceTypesToBlock
+        }
+      };
+
+      if (mode === 'whitelist' && domains.length > 0) {
+        aggRule.condition.excludedInitiatorDomains = domains;
+      } else if (mode === 'blacklist' && domains.length > 0) {
+        aggRule.condition.initiatorDomains = domains;
+      }
+
+      if (mode === 'whitelist' || (mode === 'blacklist' && domains.length > 0)) {
+        newRules.push(aggRule);
+      }
+    }
+  }
 
   try {
     await chrome.declarativeNetRequest.updateDynamicRules({
